@@ -24,6 +24,22 @@
   const updated = document.querySelector('#last-updated');
   const dateLabel = document.querySelector('#board-date');
   const toast = document.querySelector('.toast');
+  const heroImage = document.querySelector('#hero-image');
+  const HERO_PARTS = Array.from({ length: 6 }, (_, index) => `assets/hero-b64/part-${index + 1}.b64`);
+
+  async function loadHero() {
+    if (!heroImage) return;
+    try {
+      const parts = await Promise.all(HERO_PARTS.map(async path => {
+        const response = await fetch(path, { cache: 'force-cache' });
+        if (!response.ok) throw new Error(`Hero part failed: ${response.status}`);
+        return (await response.text()).trim();
+      }));
+      heroImage.src = `data:image/webp;base64,${parts.join('')}`;
+    } catch (error) {
+      console.error('Could not load hero image', error);
+    }
+  }
   let board = 'departures';
   let currentFlights = [];
   let toastTimer;
@@ -200,5 +216,6 @@
   if (refreshMs >= 15000) autoRefreshTimer = setInterval(() => loadFlights(false), refreshMs);
   window.addEventListener('beforeunload', () => clearInterval(autoRefreshTimer));
 
+  loadHero();
   loadFlights();
 })();
