@@ -7,11 +7,14 @@
   <meta name="description" content="Qatar Airways flight status concept with live-ready departures and arrivals board.">
   <title>Qatar Airways — Flight status</title>
 
-  <!-- Phosphor: expressive icon family with multiple weights. -->
+  <!-- Phosphor Icons: expressive, multi-weight icon system (no Lucide). -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+  <!-- Proper country flags instead of emoji glyphs. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
+
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
 </head>
@@ -39,21 +42,21 @@
         <nav class="utility-nav" aria-label="Utility navigation">
           <a class="help-link" href="#help">Help</a>
           <button class="nav-icon-button" type="button" aria-label="Search" data-toast="Search">
-            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+            <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
           </button>
           <button class="locale-button" type="button" aria-label="Region and language" data-toast="Region and language">
-            <span class="flag" aria-hidden="true">🇺🇸</span>
+            <span class="flag fi fi-us" aria-hidden="true"></span>
             <span>EN</span>
-            <i class="ph ph-caret-down" aria-hidden="true"></i>
+            <i class="ph-fill ph-caret-down" aria-hidden="true"></i>
           </button>
           <button class="account-button" type="button" data-toast="Log in / Sign up">
-            <i class="ph ph-user-circle" aria-hidden="true"></i>
+            <i class="ph-duotone ph-user-circle" aria-hidden="true"></i>
             <span>Log in | Sign up</span>
           </button>
         </nav>
 
         <button class="mobile-menu" type="button" aria-label="Open menu" data-toast="Menu">
-          <i class="ph ph-list" aria-hidden="true"></i>
+          <i class="ph-duotone ph-list" aria-hidden="true"></i>
         </button>
       </div>
     </header>
@@ -65,7 +68,7 @@
         <p class="hero-subtitle">Live departures, arrivals and flight updates.</p>
         <a class="hero-cta" href="#board">
           Check flight status
-          <i class="ph ph-arrow-down" aria-hidden="true"></i>
+          <i class="ph-duotone ph-arrow-circle-down" aria-hidden="true"></i>
         </a>
       </div>
       <div class="halo" aria-hidden="true"></div>
@@ -99,7 +102,7 @@
 
       <div class="board-toolbar">
         <label class="flight-search" for="flight-search">
-          <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
           <input id="flight-search" type="search" autocomplete="off" placeholder="Search flight, city or airport">
           <kbd>/</kbd>
         </label>
@@ -125,11 +128,11 @@
 
       <div class="board-footer">
         <div class="last-updated">
-          <i class="ph ph-clock-countdown" aria-hidden="true"></i>
+          <i class="ph-duotone ph-clock-countdown" aria-hidden="true"></i>
           <span>Last updated <strong id="last-updated">just now</strong></span>
         </div>
         <button class="refresh-button" type="button" id="refresh-flights">
-          <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+          <i class="ph-duotone ph-arrows-clockwise" aria-hidden="true"></i>
           <span>Refresh flights</span>
         </button>
       </div>
@@ -146,7 +149,7 @@
   <button class="help-bubble" id="help" type="button" data-toast="Need help?">
     <span class="help-icon" aria-hidden="true"><i class="ph-duotone ph-chat-circle-dots"></i></span>
     <span class="help-text"><strong>Need help?</strong><small>Let's chat</small></span>
-    <i class="ph ph-arrow-right help-arrow" aria-hidden="true"></i>
+    <i class="ph-duotone ph-arrow-circle-right help-arrow" aria-hidden="true"></i>
   </button>
 
   <div class="toast" aria-live="polite" role="status"></div>
