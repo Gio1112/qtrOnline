@@ -6,7 +6,8 @@ Static Qatar Airways-style flight-status homepage concept.
 
 - User-provided Qatar aircraft ramp hero image
 - Qatar Airways / oneworld brand assets
-- Phosphor Icons (regular, duotone, and fill) from jsDelivr
+- **Phosphor Icons** for the interface (regular, duotone, and fill weights — no Lucide)
+- **Flag Icons** for proper country flags instead of emoji glyphs
 - Responsive departures / arrivals board
 - Search, refresh, status icons, and the `/` search shortcut
 - API-ready flight data adapter
@@ -23,7 +24,11 @@ cd qtrOnline
 py -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in your browser.
+Then open:
+
+```text
+http://localhost:8000
+```
 
 If `py` is unavailable, use:
 
@@ -31,40 +36,44 @@ If `py` is unavailable, use:
 python -m http.server 8000
 ```
 
-Keep that terminal open while you view the site. Press `Ctrl+C` to stop the local server.
+Keep that terminal open while you view the site. Press `Ctrl+C` to stop the server.
 
-### Every time ChatGPT updates the repo
+## The normal workflow after ChatGPT updates the repo
 
-You do **not** clone it again. Open PowerShell in your existing `qtrOnline` folder and run:
-
-```powershell
-git pull --ff-only
-```
-
-If your local server is still running, hard-refresh the browser with `Ctrl+Shift+R`.
-
-If the server is not running, start it again:
+You only clone the repository once. After that, every time I push changes for you:
 
 ```powershell
+cd path\to\qtrOnline
+git pull --ff-only origin main
 py -m http.server 8000
 ```
 
-and visit `http://localhost:8000`.
+Then visit `http://localhost:8000` and press **Ctrl+Shift+R** to hard-refresh if the page was already open.
 
-### If you edit files locally
+If the local server is already running, you do **not** need to start another one. Just run:
 
-Before pulling, check what changed:
+```powershell
+git pull --ff-only origin main
+```
+
+and refresh the browser.
+
+### Quick check before pulling
+
+If you have been editing files yourself, run:
 
 ```powershell
 git status
 ```
 
-If you want to keep those edits, commit them first:
+If it says the working tree is clean, pull normally.
+
+If you want to keep your own local edits:
 
 ```powershell
 git add .
-git commit -m "Describe my changes"
-git pull --rebase
+git commit -m "Describe my local changes"
+git pull --rebase origin main
 ```
 
 ## Flight API connection
