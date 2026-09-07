@@ -1,0 +1,8 @@
+# Local licensed font files — keep these off the public repo.
+assets/fonts/*
+!assets/fonts/README.md
+
+# Local/dev junk
+.DS_Store
+Thumbs.db
+.vscode/
