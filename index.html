@@ -3,24 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#220d1b">
-  <meta name="description" content="Qatar Airways flight status concept with live-ready departures and arrivals board.">
+  <meta name="theme-color" content="#1d0d18">
+  <meta name="description" content="Qatar Airways flight status concept with API-ready departures and arrivals.">
   <title>Qatar Airways — Flight status</title>
 
-  <!-- Phosphor Icons: expressive, multi-weight icon system (no Lucide). -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
-  <!-- Proper country flags instead of emoji glyphs. -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css">
-
   <link rel="stylesheet" href="styles.css">
   <script src="config.js"></script>
 </head>
 <body>
   <section class="hero" aria-label="Qatar Airways flight information">
-    <img class="hero-image" id="hero-image" alt="Qatar Airways aircraft on the airport ramp">
+    <img class="hero-image" src="assets/hero.png" alt="Qatar Airways aircraft on the airport ramp">
     <div class="hero-shade" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -40,22 +36,22 @@
         </nav>
 
         <nav class="utility-nav" aria-label="Utility navigation">
-          <a class="help-link" href="#help">Help</a>
-          <button class="nav-icon-button" type="button" aria-label="Search" data-toast="Search">
+          <a href="#">Help</a>
+          <button class="nav-icon-button" type="button" aria-label="Search">
             <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
           </button>
-          <button class="locale-button" type="button" aria-label="Region and language" data-toast="Region and language">
+          <button class="locale-button" type="button" aria-label="Region and language">
             <span class="flag fi fi-us" aria-hidden="true"></span>
             <span>EN</span>
-            <i class="ph-fill ph-caret-down" aria-hidden="true"></i>
+            <i class="ph ph-caret-down" aria-hidden="true"></i>
           </button>
-          <button class="account-button" type="button" data-toast="Log in / Sign up">
+          <button class="account-button" type="button">
             <i class="ph-duotone ph-user-circle" aria-hidden="true"></i>
             <span>Log in | Sign up</span>
           </button>
         </nav>
 
-        <button class="mobile-menu" type="button" aria-label="Open menu" data-toast="Menu">
+        <button class="mobile-menu" type="button" aria-label="Open menu">
           <i class="ph-duotone ph-list" aria-hidden="true"></i>
         </button>
       </div>
@@ -63,15 +59,10 @@
 
     <div class="hero-content">
       <div class="hero-copy">
-        <p class="eyebrow">Flight information</p>
         <h1>Track your journey<br>in real time</h1>
-        <p class="hero-subtitle">Live departures, arrivals and flight updates.</p>
-        <a class="hero-cta" href="#board">
-          Check flight status
-          <i class="ph-duotone ph-arrow-circle-down" aria-hidden="true"></i>
-        </a>
+        <p>Live departures, arrivals and flight updates.</p>
+        <a class="hero-cta" href="#board">Check flight status</a>
       </div>
-      <div class="halo" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -79,9 +70,6 @@
     <section class="flight-board" id="board" aria-labelledby="board-title">
       <div class="board-topbar">
         <div class="board-title-wrap">
-          <span class="board-title-icon" aria-hidden="true">
-            <i class="ph-duotone ph-airplane-tilt"></i>
-          </span>
           <div>
             <h2 id="board-title">Flight status</h2>
             <p>Latest Qatar Airways flight information</p>
@@ -102,12 +90,12 @@
 
       <div class="board-toolbar">
         <label class="flight-search" for="flight-search">
-          <i class="ph-duotone ph-magnifying-glass" aria-hidden="true"></i>
+          <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
           <input id="flight-search" type="search" autocomplete="off" placeholder="Search flight, city or airport">
           <kbd>/</kbd>
         </label>
         <div class="board-date">
-          <i class="ph-duotone ph-calendar-blank" aria-hidden="true"></i>
+          <i class="ph ph-calendar-blank" aria-hidden="true"></i>
           <span id="board-date">Today</span>
         </div>
       </div>
@@ -128,30 +116,45 @@
 
       <div class="board-footer">
         <div class="last-updated">
-          <i class="ph-duotone ph-clock-countdown" aria-hidden="true"></i>
+          <i class="ph ph-clock" aria-hidden="true"></i>
           <span>Last updated <strong id="last-updated">just now</strong></span>
         </div>
         <button class="refresh-button" type="button" id="refresh-flights">
-          <i class="ph-duotone ph-arrows-clockwise" aria-hidden="true"></i>
+          <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
           <span>Refresh flights</span>
         </button>
       </div>
     </section>
 
-    <section class="happening" id="discover">
-      <p class="section-kicker">Discover more</p>
-      <h2>Go where it's happening</h2>
-      <div class="destination-placeholder" aria-hidden="true"></div>
+    <section class="happening" id="discover" aria-labelledby="happening-title">
+      <h2 id="happening-title">Go where it's happening</h2>
+      <div class="offer-grid">
+        <a class="offer-card" href="#">
+          <img src="assets/cards/offers.webp" alt="Travel destinations and offers">
+          <div class="offer-card-body">
+            <h3>Explore our offers</h3>
+            <span>Find great fares <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </a>
+        <a class="offer-card" href="#">
+          <img src="assets/cards/avios.webp" alt="Luxury car rental">
+          <div class="offer-card-body">
+            <h3>Collect Avios on Turo</h3>
+            <span>Find your rental <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </a>
+        <a class="offer-card" href="#">
+          <img src="assets/cards/destinations.webp" alt="Tropical destination">
+          <div class="offer-card-body">
+            <h3>Where will you go next?</h3>
+            <span>Explore destinations <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </a>
+      </div>
     </section>
   </main>
 
-  <button class="feedback" type="button" data-toast="Feedback">Feedback</button>
-  <button class="help-bubble" id="help" type="button" data-toast="Need help?">
-    <span class="help-icon" aria-hidden="true"><i class="ph-duotone ph-chat-circle-dots"></i></span>
-    <span class="help-text"><strong>Need help?</strong><small>Let's chat</small></span>
-    <i class="ph-duotone ph-arrow-circle-right help-arrow" aria-hidden="true"></i>
-  </button>
-
+  <button class="feedback" type="button">Feedback</button>
   <div class="toast" aria-live="polite" role="status"></div>
   <script src="app.js"></script>
 </body>
