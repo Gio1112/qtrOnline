@@ -6,14 +6,16 @@ Static Qatar Airways-style flight-status homepage concept.
 
 - User-provided Qatar aircraft ramp hero image
 - Qatar Airways / oneworld brand assets
-- Phosphor Icons (regular + duotone) from jsDelivr
+- Phosphor Icons (regular, duotone, and fill) from jsDelivr
 - Responsive departures / arrivals board
-- Search, refresh, statuses, keyboard `/` shortcut
+- Search, refresh, status icons, and the `/` search shortcut
 - API-ready flight data adapter
 
 ## Run it locally
 
-### First time
+### First time only
+
+Open PowerShell in the folder where you want the project and run:
 
 ```powershell
 git clone https://github.com/Gio1112/qtrOnline.git
@@ -29,16 +31,41 @@ If `py` is unavailable, use:
 python -m http.server 8000
 ```
 
+Keep that terminal open while you view the site. Press `Ctrl+C` to stop the local server.
+
 ### Every time ChatGPT updates the repo
 
-From the `qtrOnline` folder:
+You do **not** clone it again. Open PowerShell in your existing `qtrOnline` folder and run:
 
 ```powershell
-git pull
+git pull --ff-only
+```
+
+If your local server is still running, hard-refresh the browser with `Ctrl+Shift+R`.
+
+If the server is not running, start it again:
+
+```powershell
 py -m http.server 8000
 ```
 
-If a server is already running, you only need `git pull`, then hard-refresh the browser with `Ctrl+Shift+R`.
+and visit `http://localhost:8000`.
+
+### If you edit files locally
+
+Before pulling, check what changed:
+
+```powershell
+git status
+```
+
+If you want to keep those edits, commit them first:
+
+```powershell
+git add .
+git commit -m "Describe my changes"
+git pull --rebase
+```
 
 ## Flight API connection
 
