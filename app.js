@@ -24,22 +24,7 @@
   const updated = document.querySelector('#last-updated');
   const dateLabel = document.querySelector('#board-date');
   const toast = document.querySelector('.toast');
-  const heroImage = document.querySelector('#hero-image');
-  const HERO_PARTS = Array.from({ length: 6 }, (_, index) => `assets/hero-b64/part-${index + 1}.b64`);
 
-  async function loadHero() {
-    if (!heroImage) return;
-    try {
-      const parts = await Promise.all(HERO_PARTS.map(async path => {
-        const response = await fetch(path, { cache: 'force-cache' });
-        if (!response.ok) throw new Error(`Hero part failed: ${response.status}`);
-        return (await response.text()).trim();
-      }));
-      heroImage.src = `data:image/webp;base64,${parts.join('')}`;
-    } catch (error) {
-      console.error('Could not load hero image', error);
-    }
-  }
   let board = 'departures';
   let currentFlights = [];
   let toastTimer;
@@ -75,68 +60,62 @@
   }
 
   function statusClass(status = '') {
-    const s = status.toLowerCase();
-    if (s.includes('boarding')) return 'status-boarding';
-    if (s.includes('final')) return 'status-final-call';
-    if (s.includes('delay')) return 'status-delayed';
-    if (s.includes('cancel')) return 'status-cancelled';
-    if (s.includes('landed')) return 'status-landed';
-    if (s.includes('arriv')) return 'status-arriving';
+    const value = status.toLowerCase();
+    if (value.includes('boarding')) return 'status-boarding';
+    if (value.includes('final')) return 'status-final-call';
+    if (value.includes('delay')) return 'status-delayed';
+    if (value.includes('cancel')) return 'status-cancelled';
+    if (value.includes('landed')) return 'status-landed';
+    if (value.includes('arriv')) return 'status-arriving';
     return 'status-on-time';
   }
 
-  function statusIcon(status = '') {
-    const s = status.toLowerCase();
-    if (s.includes('boarding')) return 'ph-door-open';
-    if (s.includes('final')) return 'ph-bell-ringing';
-    if (s.includes('delay')) return 'ph-clock-countdown';
-    if (s.includes('cancel')) return 'ph-x-circle';
-    if (s.includes('landed')) return 'ph-airplane-landing';
-    if (s.includes('arriv')) return 'ph-airplane-in-flight';
-    return 'ph-check-circle';
-  }
-
   function escapeHTML(value) {
-    return String(value ?? '').replace(/[&<>'"]/g, ch => ({
+    return String(value ?? '').replace(/[&<>'"]/g, character => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-    }[ch]));
+    }[character]));
   }
 
   function render() {
-    const q = search.value.trim().toLowerCase();
-    const list = currentFlights.filter(f => !q || [f.flight, f.from, f.to, f.time, f.gate, f.terminal, f.status]
-      .some(v => String(v || '').toLowerCase().includes(q)));
+    const query = search.value.trim().toLowerCase();
+    const list = currentFlights.filter(flight => !query || [
+      flight.flight,
+      flight.from,
+      flight.to,
+      flight.time,
+      flight.gate,
+      flight.terminal,
+      flight.status
+    ].some(value => String(value || '').toLowerCase().includes(query)));
 
     if (!list.length) {
-      rows.innerHTML = `
-        <div class="empty-state">
-          <i class="ph-duotone ph-magnifying-glass"></i>
-          <span>No flights match your search.</span>
-        </div>`;
+      rows.innerHTML = '<div class="empty-state">No flights match your search.</div>';
       return;
     }
 
-    rows.innerHTML = list.map(f => `
+    rows.innerHTML = list.map(flight => `
       <div class="flight-row" role="row">
-        <div class="flight-number" role="cell">
-          <span class="airline-chip"><i class="ph-fill ph-airplane-tilt"></i></span>
-          <span>${escapeHTML(f.flight)}</span>
-        </div>
+        <div class="flight-number" role="cell">${escapeHTML(flight.flight)}</div>
         <div class="route" role="cell">
-          <span>${escapeHTML(f.from)}</span>
+          <span>${escapeHTML(flight.from)}</span>
           <i class="ph ph-arrow-right route-arrow" aria-hidden="true"></i>
-          <span>${escapeHTML(f.to)}</span>
+          <span>${escapeHTML(flight.to)}</span>
         </div>
-        <div class="muted-cell" role="cell">${escapeHTML(f.time)}</div>
-        <div class="muted-cell" role="cell">${escapeHTML(f.gate)}</div>
-        <div class="muted-cell" role="cell">${escapeHTML(f.terminal)}</div>
+        <div class="muted-cell" role="cell">${escapeHTML(flight.time)}</div>
+        <div class="muted-cell" role="cell">${escapeHTML(flight.gate)}</div>
+        <div class="muted-cell" role="cell">${escapeHTML(flight.terminal)}</div>
         <div role="cell">
-          <span class="status-pill ${statusClass(f.status)}">
-            <i class="ph ${statusIcon(f.status)}" aria-hidden="true"></i>
-            <span>${escapeHTML(f.status)}</span>
-          </span>
+          <span class="status-text ${statusClass(flight.status)}">${escapeHTML(flight.status)}</span>
         </div>
       </div>`).join('');
+  }
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
   }
 
   async function loadFlights(showSpinner = false) {
@@ -147,24 +126,19 @@
       currentFlights = (await fetchFlights(board)).map(normalizeFlight);
       render();
       updated.textContent = new Intl.DateTimeFormat('en-US', {
-        hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Qatar'
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'Asia/Qatar'
       }).format(new Date()) + ' (DOH)';
     } catch (error) {
       console.error(error);
       currentFlights = MOCK_FLIGHTS[board];
       render();
-      showToast('API unavailable — showing sample flights');
+      showToast('Live data unavailable — showing sample flights');
     } finally {
       refresh.classList.remove('loading');
       rows.classList.remove('is-loading');
     }
-  }
-
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
   }
 
   function setBoard(nextBoard) {
@@ -178,16 +152,13 @@
     loadFlights();
   }
 
-  document.querySelectorAll('[data-toast]').forEach(el => {
-    el.addEventListener('click', () => showToast(el.dataset.toast));
-  });
-
   document.querySelectorAll('.board-tab').forEach(tab => {
     tab.addEventListener('click', () => setBoard(tab.dataset.board));
   });
 
   search.addEventListener('input', render);
   refresh.addEventListener('click', () => loadFlights(true));
+
   document.addEventListener('keydown', event => {
     if (event.key === '/' && document.activeElement !== search) {
       event.preventDefault();
@@ -196,7 +167,10 @@
   });
 
   dateLabel.textContent = new Intl.DateTimeFormat('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', timeZone: 'Asia/Qatar'
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Asia/Qatar'
   }).format(new Date());
 
   window.flightBoard = {
@@ -213,9 +187,10 @@
   };
 
   const refreshMs = Number(config.refreshMs) || 0;
-  if (refreshMs >= 15000) autoRefreshTimer = setInterval(() => loadFlights(false), refreshMs);
-  window.addEventListener('beforeunload', () => clearInterval(autoRefreshTimer));
+  if (refreshMs >= 15000) {
+    autoRefreshTimer = setInterval(() => loadFlights(false), refreshMs);
+  }
 
-  loadHero();
+  window.addEventListener('beforeunload', () => clearInterval(autoRefreshTimer));
   loadFlights();
 })();
