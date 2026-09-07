@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#220d1b">
+  <meta name="description" content="Qatar Airways flight status concept with live-ready departures and arrivals board.">
+  <title>Qatar Airways — Flight status</title>
+
+  <!-- Phosphor: expressive icon family with multiple weights. -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <section class="hero" aria-label="Qatar Airways flight information">
+    <img class="hero-image" src="assets/hero-airport.png" alt="Qatar Airways aircraft on the airport ramp">
+    <div class="hero-shade" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="nav-shell">
+        <a class="brand" href="#" aria-label="Qatar Airways home">
+          <img src="assets/qatar-logo-white.png" alt="Qatar Airways">
+        </a>
+        <a class="oneworld" href="https://www.oneworld.com/" target="_blank" rel="noopener noreferrer" aria-label="oneworld alliance">
+          <img src="assets/oneworld-white.png" alt="oneworld">
+        </a>
+
+        <nav class="primary-nav" aria-label="Primary navigation">
+          <a href="#discover">Explore</a>
+          <a href="#board">Book</a>
+          <a href="#experience">Experience</a>
+          <a href="#club">Privilege Club</a>
+        </nav>
+
+        <nav class="utility-nav" aria-label="Utility navigation">
+          <a class="help-link" href="#help">Help</a>
+          <button class="nav-icon-button" type="button" aria-label="Search" data-toast="Search">
+            <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          </button>
+          <button class="locale-button" type="button" aria-label="Region and language" data-toast="Region and language">
+            <span class="flag" aria-hidden="true">🇺🇸</span>
+            <span>EN</span>
+            <i class="ph ph-caret-down" aria-hidden="true"></i>
+          </button>
+          <button class="account-button" type="button" data-toast="Log in / Sign up">
+            <i class="ph ph-user-circle" aria-hidden="true"></i>
+            <span>Log in | Sign up</span>
+          </button>
+        </nav>
+
+        <button class="mobile-menu" type="button" aria-label="Open menu" data-toast="Menu">
+          <i class="ph ph-list" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="hero-content">
+      <div class="hero-copy">
+        <p class="eyebrow">Flight information</p>
+        <h1>Track your journey<br>in real time</h1>
+        <p class="hero-subtitle">Live departures, arrivals and flight updates.</p>
+        <a class="hero-cta" href="#board">
+          Check flight status
+          <i class="ph ph-arrow-down" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="halo" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main>
+    <section class="flight-board" id="board" aria-labelledby="board-title">
+      <div class="board-topbar">
+        <div class="board-title-wrap">
+          <span class="board-title-icon" aria-hidden="true">
+            <i class="ph-duotone ph-airplane-tilt"></i>
+          </span>
+          <div>
+            <h2 id="board-title">Flight status</h2>
+            <p>Latest Qatar Airways flight information</p>
+          </div>
+        </div>
+
+        <div class="board-tabs" role="tablist" aria-label="Flight board type">
+          <button class="board-tab active" type="button" role="tab" aria-selected="true" data-board="departures">
+            <i class="ph-duotone ph-airplane-takeoff" aria-hidden="true"></i>
+            <span>Departures</span>
+          </button>
+          <button class="board-tab" type="button" role="tab" aria-selected="false" data-board="arrivals">
+            <i class="ph-duotone ph-airplane-landing" aria-hidden="true"></i>
+            <span>Arrivals</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="board-toolbar">
+        <label class="flight-search" for="flight-search">
+          <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+          <input id="flight-search" type="search" autocomplete="off" placeholder="Search flight, city or airport">
+          <kbd>/</kbd>
+        </label>
+        <div class="board-date">
+          <i class="ph-duotone ph-calendar-blank" aria-hidden="true"></i>
+          <span id="board-date">Today</span>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <div class="flight-table" role="table" aria-label="Qatar Airways flight status">
+          <div class="flight-row flight-head" role="row">
+            <div role="columnheader">Flight</div>
+            <div role="columnheader">Route</div>
+            <div role="columnheader">Scheduled</div>
+            <div role="columnheader">Gate</div>
+            <div role="columnheader">Terminal</div>
+            <div role="columnheader">Status</div>
+          </div>
+          <div id="flight-rows" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="board-footer">
+        <div class="last-updated">
+          <i class="ph ph-clock-countdown" aria-hidden="true"></i>
+          <span>Last updated <strong id="last-updated">just now</strong></span>
+        </div>
+        <button class="refresh-button" type="button" id="refresh-flights">
+          <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+          <span>Refresh flights</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="happening" id="discover">
+      <p class="section-kicker">Discover more</p>
+      <h2>Go where it's happening</h2>
+      <div class="destination-placeholder" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <button class="feedback" type="button" data-toast="Feedback">Feedback</button>
+  <button class="help-bubble" id="help" type="button" data-toast="Need help?">
+    <span class="help-icon" aria-hidden="true"><i class="ph-duotone ph-chat-circle-dots"></i></span>
+    <span class="help-text"><strong>Need help?</strong><small>Let's chat</small></span>
+    <i class="ph ph-arrow-right help-arrow" aria-hidden="true"></i>
+  </button>
+
+  <div class="toast" aria-live="polite" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
